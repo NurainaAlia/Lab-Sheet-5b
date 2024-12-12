@@ -1,4 +1,10 @@
 <?php
+session_start();
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    header("Location: login.php");
+    exit;
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['matric'])) {
     $matric = $_GET['matric'];
 
