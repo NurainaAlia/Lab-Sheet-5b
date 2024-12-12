@@ -1,4 +1,10 @@
 <?php
+session_start();
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    header("Location: login.php");
+    exit;
+}
+
 if (isset($_GET['matric'])) {
     $conn = new mysqli("localhost", "root", "", "Lab_5b");
     if ($conn->connect_error) {
@@ -7,7 +13,6 @@ if (isset($_GET['matric'])) {
 
     $matric = $_GET['matric'];
 
-    // Prepare and execute the delete query
     $stmt = $conn->prepare("DELETE FROM users WHERE matric = ?");
     $stmt->bind_param("s", $matric);
 
@@ -20,7 +25,6 @@ if (isset($_GET['matric'])) {
     $stmt->close();
     $conn->close();
 
-    // Redirect back to display.php
     header("Location: display.php");
     exit;
 } else {
